@@ -6,10 +6,15 @@
 
   graphitePort: 2003,
   graphiteHost: "127.0.0.1",
-  flushInterval: 10000,
+  flushInterval: ${STATSD_FLUSH_INTERVAL},
 
   backends: ['./backends/graphite'],
   graphite: {
-    legacyNamespace: false
+    legacyNamespace: false,
+    globalPrefix: '${STATSD_GRAPHITE_PREFIX}',
+    prefixCounter: '${STATSD_GRAPHITE_PREFIX_COUNTER}',
+    prefixTimer: '${STATSD_GRAPHITE_PREFIX_TIMER}',
+    prefixGauge: '${STATSD_GRAPHITE_PREFIX_GAUGE}',
+    prefixSet: '${STATSD_GRAPHITE_PREFIX_SET}'
   }
 }

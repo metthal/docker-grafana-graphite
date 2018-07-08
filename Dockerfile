@@ -7,7 +7,7 @@ FROM   alpine
 # Install all prerequisites
 RUN     apk add --update --no-cache nginx nodejs nodejs-npm git curl wget gcc ca-certificates \
                                     python-dev py-pip musl-dev libffi-dev cairo supervisor bash \
-                                    py-pyldap py-rrd                                                                 &&\
+                                    py-pyldap py-rrd gettext                                                         &&\
         wget -q -O /etc/apk/keys/sgerrand.rsa.pub \
                     https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub              &&\
         wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.26-r0/glibc-2.26-r0.apk                &&\
@@ -43,7 +43,7 @@ RUN     git clone --depth=1 --branch master https://github.com/etsy/statsd.git /
 # Install Grafana
 RUN     mkdir /src/grafana                                                                                           &&\
         mkdir /opt/grafana                                                                                           &&\
-        curl https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.6.3.linux-x64.tar.gz \
+        curl https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.1.linux-amd64.tar.gz \
              -o /src/grafana.tar.gz                                                                                  &&\
         tar -xzf /src/grafana.tar.gz -C /opt/grafana --strip-components=1                                            &&\
         rm /src/grafana.tar.gz
@@ -58,7 +58,13 @@ RUN     apk del --no-cache git curl wget gcc python-dev musl-dev libffi-dev
 # ----------------- #
 
 # Confiure StatsD
-ADD     ./statsd/config.js /src/statsd/config.js
+ENV     STATSD_GRAPHITE_PREFIX=stats \
+        STATSD_GRAPHITE_PREFIX_COUNTER=counters \
+        STATSD_GRAPHITE_PREFIX_TIMER=timers \
+        STATSD_GRAPHITE_PREFIX_GAUGE=gauges \
+        STATSD_GRAPHITE_PREFIX_SET=sets \
+        STATSD_FLUSH_INTERVAL=10000
+ADD     ./statsd/config.js /src/statsd/config.js.in
 
 # Configure Whisper, Carbon and Graphite-Web
 ADD     ./graphite/initial_data.json /opt/graphite/webapp/graphite/initial_data.json
@@ -121,4 +127,7 @@ EXPOSE 2003
 #   Run!   #
 # -------- #
 
-CMD     ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
+ADD     ./start.sh /start.sh
+RUN     chmod +x /start.sh
+
+CMD     ["/start.sh"]
