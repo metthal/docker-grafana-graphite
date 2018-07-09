@@ -91,10 +91,8 @@ RUN     cd /src                                                                 
         wizzy set grafana password $(extract ";admin_password")
 
 # Add the default datasource and dashboards
-RUN 	mkdir /src/datasources                                                                                       &&\
-        mkdir /src/dashboards
-ADD     ./grafana/datasources/* /src/datasources
-ADD     ./grafana/dashboards/* /src/dashboards/
+VOLUME  /src/datasources
+VOLUME  /src/dashboards
 ADD     ./grafana/export-datasources-and-dashboards.sh /src/
 
 # Configure nginx and supervisord

@@ -1,9 +1,9 @@
 version: '2'
 services:
-  grafana_graphite:
+  grafana-graphite-statsd:
     build: .
-    image: kamon/grafana_graphite
-    container_name: kamon-grafana-dashboard
+    image: metthal/grafana-graphite-statsd
+    container_name: grafana-graphite-statsd
     ports:
       - '80:80'
       - '81:81'
@@ -15,3 +15,5 @@ services:
       - ./data/grafana:/opt/grafana/data
       - ./log/graphite:/opt/graphite/storage/log
       - ./log/supervisor:/var/log/supervisor
+      - ./grafana/dashboards:/src/dashboards
+      - ./grafana/datasources:/src/datasources

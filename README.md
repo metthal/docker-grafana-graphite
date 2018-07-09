@@ -1,6 +1,3 @@
-StatsD + Graphite + Grafana 4 + Kamon Dashboards
----------------------------------------------
-
 **This fork contains following changes:**
 * Updated Grafana to version 5.2.1
 * StatsD is configurable when container is started for the first time through these environment variables:
@@ -10,6 +7,11 @@ StatsD + Graphite + Grafana 4 + Kamon Dashboards
   * `STATSD_GRAPHITE_PREFIX_TIMER` (Default: `timers`)
   * `STATSD_GRAPHITE_PREFIX_GAUGE` (Default: `gauges`)
   * `STATSD_GRAPHITE_PREFIX_SET` (Default: `sets`)
+* Grafana dashboards and datasources directories are now volumes so we can specify them in startup time rather than build time
+  * Dashboards and datasources are imported into Grafana only if the dashboard/datasource with that specific identifier does not already exist. Otherwise it is just ignored.
+
+StatsD + Graphite + Grafana 4 + Kamon Dashboards
+---------------------------------------------
 
 This image contains a sensible default configuration of StatsD, Graphite and Grafana, and comes bundled with a example
 dashboard that gives you the basic metrics currently collected by Kamon for both Actors and Traces. There are two ways
