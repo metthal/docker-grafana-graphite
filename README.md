@@ -7,6 +7,10 @@
   * `STATSD_GRAPHITE_PREFIX_TIMER` (Default: `timers`)
   * `STATSD_GRAPHITE_PREFIX_GAUGE` (Default: `gauges`)
   * `STATSD_GRAPHITE_PREFIX_SET` (Default: `sets`)
+  * `STATSD_DELETE_GAUGES` (Default: `false`)
+  * `STATSD_DELETE_TIMERS` (Default: `false`)
+  * `STATSD_DELETE_SETS` (Default: `false`)
+  * `STATSD_DELETE_COUNTERS` (Default: `false`)
 * Grafana dashboards and datasources directories are now volumes so we can specify them in startup time rather than build time
   * Dashboards and datasources are imported into Grafana only if the dashboard/datasource with that specific identifier does not already exist. Otherwise it is just ignored.
 

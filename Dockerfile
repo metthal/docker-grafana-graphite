@@ -63,7 +63,11 @@ ENV     STATSD_GRAPHITE_PREFIX=stats \
         STATSD_GRAPHITE_PREFIX_TIMER=timers \
         STATSD_GRAPHITE_PREFIX_GAUGE=gauges \
         STATSD_GRAPHITE_PREFIX_SET=sets \
-        STATSD_FLUSH_INTERVAL=10000
+        STATSD_FLUSH_INTERVAL=10000 \
+        STATSD_DELETE_GAUGES=false \
+        STATSD_DELETE_TIMERS=false \
+        STATSD_DELETE_SETS=false \
+        STATSD_DELETE_COUNTERS=false
 ADD     ./statsd/config.js /src/statsd/config.js.in
 
 # Configure Whisper, Carbon and Graphite-Web

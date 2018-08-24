@@ -8,6 +8,11 @@
   graphiteHost: "127.0.0.1",
   flushInterval: ${STATSD_FLUSH_INTERVAL},
 
+  deleteGauges: ${STATSD_DELETE_GAUGES},
+  deleteTimers: ${STATSD_DELETE_TIMERS},
+  deleteSets: ${STATSD_DELETE_SETS},
+  deleteCounters: ${STATSD_DELETE_COUNTERS},
+
   backends: ['./backends/graphite'],
   graphite: {
     legacyNamespace: false,
