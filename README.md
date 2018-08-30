@@ -13,6 +13,7 @@
   * `STATSD_DELETE_COUNTERS` (Default: `false`)
 * Grafana dashboards and datasources directories are now volumes so we can specify them in startup time rather than build time
   * Dashboards and datasources are imported into Grafana only if the dashboard/datasource with that specific identifier does not already exist. Otherwise it is just ignored.
+* Plugins can be installed to Grafana using environmental variable `GRAFANA_PLUGINS` where you supply colon separated list of plugin names that you would supply to `grafana-cli plugin install`.
 
 StatsD + Graphite + Grafana 4 + Kamon Dashboards
 ---------------------------------------------
