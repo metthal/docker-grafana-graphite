@@ -1,5 +1,5 @@
 **This fork contains following changes:**
-* Updated Grafana to version 5.2.1
+* Updated Grafana to version 6.0.0
 * StatsD is configurable when container is started for the first time through these environment variables:
   * `STATSD_FLUSH_INTERVAL` (Default: 10000)
   * `STATSD_GRAPHITE_PREFIX` (Default: `stats`)

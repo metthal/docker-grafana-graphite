@@ -5,11 +5,15 @@ FROM   alpine
 # ---------------- #
 
 # Install all prerequisites
+# Added 'gettext' beacuse of 'envsubst' tool
 RUN     apk add --update --no-cache nginx nodejs nodejs-npm git curl wget gcc ca-certificates \
                                     python-dev py-pip musl-dev libffi-dev cairo supervisor bash \
-                                    py-pyldap py-rrd                                                                 &&\
+                                    py-pyldap py-rrd gettext                                                         &&\
         apk --no-cache add ca-certificates wget                                                                      &&\
         wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub                  &&\
+        wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk                &&\
+        apk add glibc-2.29-r0.apk                                                                                    &&\
+        rm glibc-2.29-r0.apk                                                                                         &&\
         adduser -D -u 1000 -g 'www' www                                                                              &&\
         pip install -U pip pytz gunicorn six --no-cache-dir                                                          &&\
         npm install -g wizzy                                                                                         &&\
@@ -40,7 +44,7 @@ RUN     git clone --depth=1 --branch master https://github.com/etsy/statsd.git /
 # Install Grafana
 RUN     mkdir /src/grafana                                                                                           &&\
         mkdir /opt/grafana                                                                                           &&\
-        curl https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.2.linux-amd64.tar.gz  \
+        curl https://dl.grafana.com/oss/release/grafana-6.0.0.linux-amd64.tar.gz \
              -o /src/grafana.tar.gz                                                                                  &&\
         tar -xzf /src/grafana.tar.gz -C /opt/grafana --strip-components=1                                            &&\
         rm /src/grafana.tar.gz
